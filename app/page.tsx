@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import type { Animal } from "@/utils/types";
-import AnimalCard from "./components/AnimalCard";
+import AnimalCard from "@/components/AnimalCard";
 
 export default async function Home() {
   const cookieStore = await cookies();
