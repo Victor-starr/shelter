@@ -10,9 +10,9 @@ export default async function Home() {
 
   const { data: animals, error } = (await supabase
     .from("animals")
-    .select()) as { data: Animal[] | null; error: Error | null };
+    .select()
+    .limit(3)) as { data: Animal[] | null; error: Error | null };
   if (error) throw error;
-  console.log("ANIMALS: ", animals);
 
   return (
     <main className="flex flex-col justify-start items-center min-h-screen">

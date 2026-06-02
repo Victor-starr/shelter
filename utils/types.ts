@@ -1,3 +1,5 @@
+import { User as supabaseUser } from "@supabase/supabase-js";
+
 export type Animal = {
   id: string;
   name: string;
@@ -7,3 +9,5 @@ export type Animal = {
   image_url: string;
   created_at: string;
 };
+
+export type User = supabaseUser;
