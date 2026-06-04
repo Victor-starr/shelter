@@ -131,9 +131,7 @@ export function useAuth(): useAuthReturn {
         console.error("Fallback profile creation failed:", profileErr);
       }
     }
-    // TODO: enable only after email confirmation page is created
-    // router.push("/verify-email");
-    router.push("/");
+    router.push("/verify-email");
   }
 
   const logout = async () => {
