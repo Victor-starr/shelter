@@ -1,4 +1,4 @@
-import { Animal } from "@/utils/types";
+import { Animal } from "@/lib/types";
 import Image from "next/image";
 
 const AnimalCard = (animal: Animal) => {
