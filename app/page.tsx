@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
-import type { Animal } from "@/utils/types";
+import type { Animal } from "@/lib/types";
 import AnimalCard from "@/components/AnimalCard";
 import Image from "next/image";
 
