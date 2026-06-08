@@ -9,60 +9,77 @@ export default function VerifyEmail() {
 
   return (
     <GuardVerify>
-      <section className="flex flex-col justify-center items-center mx-auto px-4 py-8 min-h-[calc(100vh-140px)] container">
-        <div className="flex flex-col justify-center items-center bg-card shadow-lg mt-8 mb-8 p-8 border border-border rounded-2xl w-full max-w-md text-center">
-          <div className="inline-flex justify-center items-center bg-success mb-6 rounded-full w-16 h-16">
-            <FaCheck className="mx-4 my-4 text-title" size={32} />
-          </div>
-          <h2 className="mb-2 font-bold text-title text-3xl md:text-4xl lg:text-5xl text-center">
-            Check Your Email
-          </h2>
-          <p className="mt-1 mb-6 px-2 text-description text-base md:text-lg text-center">
-            Please check your inbox and click the verification link to activate
-            your account.
-          </p>
+      <section className="flex flex-col justify-center items-center bg-background px-4 py-12 min-h-screen">
+        <div className="w-full max-w-md">
+          {/* Success Card */}
+          <div className="space-y-6 card">
+            {/* Icon */}
+            <div className="flex justify-center">
+              <div className="inline-flex justify-center items-center bg-success/20 border-2 border-success rounded-full w-20 h-20">
+                <FaCheck className="text-success" size={40} />
+              </div>
+            </div>
 
-          <div className="bg-background mb-6 p-4 border border-border rounded-lg w-full">
-            <h3 className="mb-2 text-title-2 text-lg">
-              Can&apos;t find the email?
-            </h3>
-            <ul className="space-y-1 mb-4 text-muted text-sm text-left">
-              <li>• Check your spam or junk folder</li>
-              <li>• Make sure you entered the correct email address</li>
-              <li>• Wait a few minutes - emails can take time to arrive</li>
-              <li>
-                • If you have already verified your email but are not
-                redirected, try logging in:
-              </li>
-            </ul>
-            <div className="flex flex-row gap-3">
+            {/* Main Content */}
+            <div className="space-y-3 text-center">
+              <h2 className="font-bold text-title text-3xl">
+                Check Your Email
+              </h2>
+              <p className="text-description text-base leading-relaxed">
+                We{`&apos`}ve sent a verification link to{" "}
+                <span className="font-semibold">{user?.email}</span>. Please
+                click the link to activate your account.
+              </p>
+            </div>
+
+            {/* Help Section */}
+            <div className="space-y-3 bg-muted p-5 rounded-lg">
+              <h3 className="font-semibold text-title-2 text-sm">
+                Can&apos;t find the email?
+              </h3>
+              <ul className="space-y-2 text-description text-sm">
+                <li className="flex items-start gap-2">
+                  <span className="mt-0.5 font-bold text-primary">•</span>
+                  <span>Check your spam or junk folder</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-0.5 font-bold text-primary">•</span>
+                  <span>Make sure you entered the correct email</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-0.5 font-bold text-primary">•</span>
+                  <span>Wait a few minutes - emails can take time</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="space-y-3 pt-4 border-border border-t">
               <button
                 onClick={handleResendEmail}
                 disabled={isResending || !user?.email}
-                className="bg-primary disabled:bg-muted hover:opacity-80 px-4 py-2 rounded-lg text-title text-sm transition disabled:cursor-not-allowed"
+                className="disabled:opacity-50 w-full disabled:cursor-not-allowed btn-primary"
               >
                 {isResending ? "Sending..." : "Resend Verification Email"}
               </button>
               <Link href="/auth/signin" passHref>
-                <button
-                  type="button"
-                  className="bg-secondary hover:opacity-80 active:opacity-90 px-4 py-2 rounded-lg text-title text-sm transition"
-                >
-                  Login
+                <button type="button" className="w-full btn-secondary">
+                  Back to Login
                 </button>
               </Link>
             </div>
 
+            {/* Feedback Message */}
             {resendMessage && (
-              <p
-                className={`text-sm mt-2 ${
+              <div
+                className={`rounded-lg p-3 text-sm text-center font-medium ${
                   resendMessage.includes("Failed")
-                    ? "text-error"
-                    : "text-success"
+                    ? "bg-error/10 text-error border border-error"
+                    : "bg-success/10 text-success border border-success"
                 }`}
               >
                 {resendMessage}
-              </p>
+              </div>
             )}
           </div>
         </div>

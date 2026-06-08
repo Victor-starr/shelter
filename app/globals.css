@@ -1,103 +1,178 @@
 @import "tailwindcss";
 
 :root {
-  --primary: 140 25% 55%;
-  /* Main action color → primary buttons, links, active states */
+  /* === CORE BRAND === Modern Teal & Warm Orange */
+  --primary: 174 70% 45%;
+  /* Primary teal - trust, nature, animal welfare */
 
-  --secondary: 30 45% 65%;
-  /* Secondary action → alternative buttons, badges, highlights */
+  --secondary: 35 85% 55%;
+  /* Warm orange - friendliness, warmth, welcome */
 
-  --accent: 160 30% 60%;
-  /* Small highlights → hover effects, tags, subtle UI accents */
+  --accent: 168 65% 50%;
+  /* Accent teal - highlights and interactive elements */
 
   /* === BASE UI === */
-
-  --background: 60 20% 96%;
-  /* Main page background (body) */
+  --background: 50 20% 98%;
+  /* Almost white, warm light background */
 
   /* === SURFACES === */
-
   --card: 0 0% 100%;
-  /* Cards, modals, panels */
+  /* Pure white cards for content */
 
   /* === STRUCTURE / LAYOUT HELPERS === */
+  --muted: 170 20% 95%;
+  /* Light teal-tinted backgrounds */
 
-  --muted: 120 15% 92%;
-  /* Sections, containers, soft backgrounds (navbar, sections, holders) */
-
-  --border: 120 10% 85%;
-  /* Borders, dividers, input outlines */
+  --border: 170 15% 90%;
+  /* Subtle borders with teal hint */
 
   /* === TEXT SYSTEM === */
+  --text-title: 200 25% 10%;
+  /* Dark navy for headings */
 
-  --text-title: 200 15% 12%;
-  /* Main titles → h1, h2 (strong, high contrast) */
+  --text-title-2: 200 20% 18%;
+  /* Section titles - strong contrast */
 
-  --text-title-2: 200 15% 20%;
-  /* Section titles → h3, card titles */
+  --text-description: 200 15% 35%;
+  /* Body text - readable and warm */
 
-  --text-description: 200 10% 40%;
-  /* Paragraphs, normal readable text */
-
-  --text-muted: 200 3% 62%;
-  /* Small text, metadata, labels */
+  --text-muted: 200 10% 60%;
+  /* Subtle text for helpers and metadata */
 
   /* === STATES === */
+  --success: 142 65% 48%;
+  /* Vibrant green for success states */
 
-  --success: 140 30% 50%;
-  /* Success → adoption confirmed, success alerts */
+  --warning: 38 92% 50%;
+  /* Warm yellow for warnings */
 
-  --warning: 40 85% 60%;
-  /* Warning → attention messages */
-
-  --error: 0 65% 60%;
-  /* Error → validation, alerts */
+  --error: 0 84% 60%;
+  /* Vibrant red for errors */
 
   /* === INTERACTION === */
-
-  --ring: 140 25% 55%;
-  /* Focus ring → inputs, buttons when focused */
+  --ring: 174 70% 45%;
+  /* Focus ring uses primary color */
 }
 
 /* === DARK MODE === */
-
 @media (prefers-color-scheme: dark) {
   :root {
     /* === CORE BRAND === */
-    --primary: 140 30% 65%;
-
-    --secondary: 30 35% 55%;
-
-    --accent: 160 25% 50%;
+    --primary: 174 70% 55%;
+    --secondary: 35 85% 60%;
+    --accent: 168 65% 60%;
 
     /* === BASE UI === */
-    --background: 200 15% 10%;
+    --background: 200 25% 8%;
 
     /* === SURFACES === */
-    --card: 200 15% 14%;
+    --card: 200 25% 12%;
 
-    --border: 200 10% 25%;
+    --muted: 200 20% 18%;
+    --border: 200 15% 28%;
 
-    --text-title: 0 0% 95%;
-    /* Strong titles */
-
-    --text-title-2: 0 0% 85%;
-    /* Section titles */
-
-    --text-description: 0 0% 70%;
-    /* Normal text */
-
-    --text-muted: 0 0% 50%;
-    /* Subtle text */
+    /* === TEXT SYSTEM === */
+    --text-title: 50 10% 96%;
+    --text-title-2: 50 10% 90%;
+    --text-description: 50 10% 75%;
+    --text-muted: 50 5% 55%;
 
     /* === STATES === */
-    --success: 140 35% 60%;
-    --warning: 40 90% 65%;
-    --error: 0 70% 65%;
+    --success: 142 70% 55%;
+    --warning: 38 95% 60%;
+    --error: 0 88% 70%;
 
     /* === INTERACTION === */
-    --ring: 140 30% 65%;
+    --ring: 174 70% 55%;
   }
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--text-description));
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.btn-primary {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--text-title));
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: all 200ms;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  opacity: 0.9;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+.btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px hsl(var(--ring) / 0.2);
+}
+
+.btn-secondary {
+  background-color: hsl(var(--secondary));
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: all 200ms;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+}
+.btn-secondary:hover {
+  opacity: 0.9;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+.btn-secondary:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px hsl(var(--ring) / 0.2);
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: hsl(var(--background));
+  border: 2px solid hsl(var(--border));
+  border-radius: 0.5rem;
+  color: hsl(var(--text-title));
+  transition: all 200ms;
+}
+.input-field:focus {
+  border-color: hsl(var(--primary));
+  outline: none;
+  box-shadow: 0 0 0 6px hsl(var(--primary) / 0.12);
+}
+
+.card {
+  background-color: hsl(var(--card));
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  transition: box-shadow 300ms;
+}
+.card:hover {
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
 
 @theme inline {
@@ -120,12 +195,6 @@
   --color-error: hsl(var(--error));
 
   --color-ring: hsl(var(--ring));
-}
-
-body {
-  /* background: var(--color-background); */
-  /* color: var(--color-foreground); */
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 .gsi-material-button {

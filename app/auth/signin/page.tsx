@@ -29,59 +29,109 @@ const SignInPage = () => {
   };
   return (
     <GuardGuest>
-      <main className="flex flex-col justify-center items-center bg-background min-h-screen">
-        <div className="space-y-8 bg-card shadow-lg p-8 rounded-lg w-full max-w-md">
-          <h1 className="font-bold text-title text-2xl text-center">Sign In</h1>
-          <form onSubmit={handleSignIn} className="space-y-6">
+      <main className="flex flex-col justify-center items-center bg-background px-4 py-12 min-h-screen">
+        <div className="w-full max-w-md">
+          {/* Logo/Brand Section */}
+          <div className="mb-10 text-center">
+            <h1 className="mb-2 font-bold text-primary text-4xl">Shelter</h1>
+            <p className="text-description text-lg">
+              Welcome back to your companion
+            </p>
+          </div>
+
+          {/* Card Container */}
+          <div className="space-y-8 card">
             <div>
-              <label
-                htmlFor="email"
-                className="block mb-2 font-medium text-description text-sm"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                className="block bg-background shadow-sm px-3 py-2 border border-border focus:border-ring rounded-md focus:outline-none focus:ring-ring w-full text-title sm:text-sm"
-              />
+              <h2 className="font-bold text-title text-2xl text-center">
+                Sign In
+              </h2>
+              <p className="mt-2 text-muted text-sm text-center">
+                Access your account to browse animals
+              </p>
             </div>
-            <div>
-              <label
-                htmlFor="password"
-                className="block mb-2 font-medium text-description text-sm"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                className="block bg-background shadow-sm px-3 py-2 border border-border focus:border-ring rounded-md focus:outline-none focus:ring-ring w-full text-title sm:text-sm"
-              />
+
+            <form onSubmit={handleSignIn} className="space-y-5">
+              {/* Email Field */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="email"
+                  className="block font-semibold text-title text-sm"
+                >
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="you@example.com"
+                  required
+                  className="input-field"
+                />
+              </div>
+
+              {/* Password Field */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="password"
+                  className="block font-semibold text-title text-sm"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="••••••••"
+                  required
+                  className="input-field"
+                />
+              </div>
+
+              {/* Sign In Button */}
+              <button type="submit" className="w-full btn-primary">
+                Sign In
+              </button>
+            </form>
+
+            {/* Divider */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="border-border border-t w-full"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="bg-card px-2 text-muted">
+                  Or continue with
+                </span>
+              </div>
             </div>
-            <div className="flex justify-between items-center">
-              <Link
-                href="/auth/signup"
-                className="text-primary text-sm hover:underline"
-              >
-                Don&apos;t have an account? Sign Up
-              </Link>
-            </div>
-            <button
-              type="submit"
-              className="bg-primary hover:bg-primary/90 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 w-full font-bold text-white"
-            >
-              Sign In
-            </button>
+
+            {/* Google Button */}
             <GoogleBtn
               onClick={handleSignInGoggle}
               disabled={loading}
               type="signin"
             />
-            {formMsg && <p className="mt-5 text-error text-sm">{formMsg}</p>}
-          </form>
+
+            {/* Error Message */}
+            {formMsg && (
+              <div className="bg-error/10 p-3 border border-error rounded-lg text-error text-sm">
+                {formMsg}
+              </div>
+            )}
+
+            {/* Sign Up Link */}
+            <div className="pt-4 border-border border-t text-center">
+              <p className="text-description text-sm">
+                Don&apos;t have an account?{" "}
+                <Link
+                  href="/auth/signup"
+                  className="font-semibold text-primary hover:underline"
+                >
+                  Sign Up
+                </Link>
+              </p>
+            </div>
+          </div>
         </div>
       </main>
     </GuardGuest>

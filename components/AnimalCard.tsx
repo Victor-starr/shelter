@@ -3,27 +3,41 @@ import Image from "next/image";
 
 const AnimalCard = (animal: Animal) => {
   return (
-    <div
-      key={animal.id}
-      className="bg-primary shadow-lg rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300 transform"
-    >
-      <div className="relative w-full h-64">
+    <div className="group flex flex-col hover:shadow-xl h-full\ overflow-hidden transition-all duration-300 card">
+      <div className="relative mb-4 rounded-lg w-full h-56 overflow-hidden">
         <Image
           src={animal.image_url}
           alt={animal.name}
           fill
-          className="object-cover"
-        />
-      </div>
-      <div className="p-6">
-        <h2 className="mb-2 font-bold text-title text-2xl">{animal.name}</h2>
-
-        <p className="mb-2 text-description text-lg">Type: {animal.type}</p>
-        <p className="mb-4 text-description text-lg">Age: {animal.age}</p>
-        <p className="text-description text-base">{animal.description}</p>
-      </div>
+          className="object-cover group-hover:scale-110 transition-transform duration-300"
+        />{" "}
+      </div>{" "}
+      <div className="flex-1 space-y-3">
+        <h2 className="font-bold text-title text-2xl">{animal.name}</h2>{" "}
+        <div className="space-y-2">
+          {" "}
+          <div className="flex items-center gap-2">
+            {" "}
+            <span className="font-semibold text-primary text-sm">
+              Type:
+            </span>{" "}
+            <span className="text-description text-sm">{animal.type}</span>{" "}
+          </div>{" "}
+          <div className="flex items-center gap-2">
+            {" "}
+            <span className="font-semibold text-primary text-sm">
+              Age:
+            </span>{" "}
+            <span className="text-description text-sm">{animal.age}</span>{" "}
+          </div>{" "}
+        </div>{" "}
+        <p className="text-description text-sm line-clamp-3 leading-relaxed">
+          {animal.description}
+        </p>{" "}
+      </div>{" "}
+      {/* Button */}{" "}
+      <button className="mt-6 w-full btn-primary"> Learn More </button>{" "}
     </div>
   );
 };
-
 export default AnimalCard;

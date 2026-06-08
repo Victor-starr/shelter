@@ -16,21 +16,39 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col justify-start items-center bg-background min-h-screen">
-      <header className="relative flex flex-col justify-center items-center w-full h-100">
-        <div className="z-1 absolute inset-0 bg-black/60 dark:bg-black/20" />
+      <header className="relative flex flex-col justify-center items-center w-full h-96 overflow-hidden">
+        <div className="z-10 absolute inset-0 bg-gradient-to-b from-black/50 dark:from-black/40 to-black/30 dark:to-black/20" />
         <Image
-          src="/image.png"
+          src="/bg.png"
           alt="Background Image"
           fill
-          className="z-0 object-cover"
+          priority
+          className="object-cover"
         />
-        <h1 className="z-10 relative font-bold text-white text-6xl">Animals</h1>
+        <div className="z-20 relative space-y-4 text-center">
+          <h1 className="drop-shadow-lg font-bold text-white text-5xl md:text-6xl lg:text-7xl">
+            Find Your Perfect Companion
+          </h1>
+          <p className="drop-shadow-md px-4 max-w-2xl text-white/90 text-lg md:text-xl">
+            Discover wonderful animals waiting for a loving home
+          </p>
+        </div>
       </header>
-      <div className="mx-auto px-4 py-8 container">
-        <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {animals?.map((animal) => (
-            <AnimalCard key={animal.id} {...animal} />
-          ))}
+      <div className="px-4 py-12 md:py-16 w-full">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-12">
+            <h2 className="mb-2 font-bold text-title text-3xl md:text-4xl">
+              Available Animals
+            </h2>
+            <p className="text-description text-lg">
+              Meet some of our wonderful animals looking for their forever homes
+            </p>
+          </div>
+          <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {animals?.map((animal) => (
+              <AnimalCard key={animal.id} {...animal} />
+            ))}
+          </div>
         </div>
       </div>
     </main>
