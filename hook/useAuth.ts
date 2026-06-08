@@ -106,6 +106,7 @@ export function useAuth(): useAuthReturn {
         data: {
           username,
         },
+        emailRedirectTo: `${location.origin}/auth/callback`,
       },
     });
 
