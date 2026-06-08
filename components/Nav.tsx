@@ -20,7 +20,7 @@ const Nav = () => {
         {loading || isAuthenticated ? (
           <>
             <Link
-              href="/contact"
+              href="/auth/dashboard"
               className="text-title hover:text-description transition-colors"
             >
               Dashboard
