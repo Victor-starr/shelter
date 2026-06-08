@@ -11,24 +11,31 @@ const Nav = () => {
         Animal Shelter
       </Link>
       <div className="flex items-center gap-4">
-        <Link href="/about" className="hover:text-muted transition-colors">
+        <Link
+          href="/about"
+          className="text-title hover:text-description transition-colors"
+        >
           About
         </Link>
-
-        <Link href="/contact" className="hover:text-muted transition-colors">
-          Contact
-        </Link>
         {loading || isAuthenticated ? (
-          <button
-            className="text-muted-foreground hover:text-muted transition-colors"
-            onClick={logout}
-            disabled={loading}
-          >
-            Logout
-          </button>
+          <>
+            <Link
+              href="/contact"
+              className="text-title hover:text-description transition-colors"
+            >
+              Dashboard
+            </Link>
+            <button
+              className="text-title hover:text-description transition-colors"
+              onClick={logout}
+              disabled={loading}
+            >
+              Logout
+            </button>
+          </>
         ) : (
           <Link
-            className="text-muted-foreground hover:text-muted transition-colors"
+            className="text-title hover:text-description transition-colors"
             href="/auth/signin"
           >
             Sign In

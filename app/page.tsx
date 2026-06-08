@@ -15,9 +15,9 @@ export default async function Home() {
   if (error) throw error;
 
   return (
-    <main className="flex flex-col justify-start items-center min-h-screen">
+    <main className="flex flex-col justify-start items-center bg-background min-h-screen">
       <header className="relative flex flex-col justify-center items-center w-full h-100">
-        <div className="z-1 absolute inset-0 bg-black/60" />
+        <div className="z-1 absolute inset-0 bg-black/60 dark:bg-black/20" />
         <Image
           src="/image.png"
           alt="Background Image"
