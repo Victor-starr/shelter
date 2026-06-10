@@ -11,6 +11,7 @@ export interface useAuthReturn {
   user: User | null;
   loading: boolean;
   isAuthenticated: boolean;
+  isAdmin: boolean;
   login: (formData: FormData) => Promise<{ error?: string } | undefined>;
   signup: (formData: FormData) => Promise<{ error?: string } | undefined>;
   logout: () => Promise<void>;
@@ -19,8 +20,12 @@ export interface useAuthReturn {
   isResending: boolean;
   resendMessage: string | null;
 }
+
+type UserWithRole = User & {
+  role: string;
+};
 export function useAuth(): useAuthReturn {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserWithRole | null>(null);
   const [loading, setLoading] = useState(true);
   const [isResending, setIsResending] = useState(false);
   const [resendMessage, setResendMessage] = useState<string | null>(null);
@@ -28,27 +33,52 @@ export function useAuth(): useAuthReturn {
   const router = useRouter();
 
   useEffect(() => {
-    // Get initial user
-    const getUser = async () => {
+    const fetchProfile = async (authUser: User) => {
+      if (!authUser?.id) return { role: "user" };
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("user_id", authUser.id)
+        .single();
+
+      return { role: profile?.role ?? "user" };
+    };
+
+    const init = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      setUser(user);
+
+      if (!user) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
+      const { role } = await fetchProfile(user);
+      setUser({ ...user, role });
       setLoading(false);
     };
 
-    getUser();
+    init();
 
-    // Listen for auth changes
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setUser(session?.user ?? null);
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (!session?.user) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
+      const { role } = await fetchProfile(session.user);
+      setUser({ ...session.user, role });
       setLoading(false);
     });
 
     return () => subscription.unsubscribe();
-  }, [supabase.auth]);
+  }, []);
 
   async function login(formData: FormData) {
     const data = {
@@ -194,6 +224,7 @@ export function useAuth(): useAuthReturn {
     user,
     loading,
     isAuthenticated: !!user,
+    isAdmin: user?.role === "admin",
     login,
     signup,
     logout,
