@@ -8,17 +8,17 @@ const GuardVerify = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (loading) return;
-    if (!isAuthenticated) {
-      router.replace("/auth/signin");
-      return;
-    }
+    // if (!isAuthenticated) {
+    //   router.replace("/auth/signin");
+    //   return;
+    // }
     if (user?.email_confirmed_at) {
       router.replace("/");
       return;
     }
   }, [isAuthenticated, loading, router, user]);
 
-  if (loading || !isAuthenticated || user?.email_confirmed_at) {
+  if (loading || user?.email_confirmed_at) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="border-primary border-t-4 rounded-full w-16 h-16 animate-spin"></div>
