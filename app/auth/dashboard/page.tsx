@@ -1,8 +1,8 @@
-import GuardAuth from "@/guards/GuardAuth";
+import GuardAdmin from "@/guards/GuardAdmin";
 
 export default function Dashboard() {
   return (
-    <GuardAuth>
+    <GuardAdmin>
       <main className="flex flex-col justify-start items-center bg-background px-4 py-12 min-h-screen">
         <div className="w-full max-w-4xl">
           {/* Header Section */}
@@ -24,8 +24,9 @@ export default function Dashboard() {
               </div>
               <h3 className="font-bold text-title text-xl">Saved Animals</h3>
               <p className="text-description text-sm">
-                View all the animals you've saved for later
+                View all the animals you{`&apos`}ve saved for later
               </p>
+
               <button className="mt-2 font-semibold text-primary hover:text-primary/80 text-sm transition-colors">
                 View Saved →
               </button>
@@ -73,6 +74,6 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
-    </GuardAuth>
+    </GuardAdmin>
   );
 }
