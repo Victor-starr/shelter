@@ -17,7 +17,7 @@ export default async function Home() {
   return (
     <main className="flex flex-col justify-start items-center bg-background min-h-screen">
       <header className="relative flex flex-col justify-center items-center w-full h-96 overflow-hidden">
-        <div className="z-10 absolute inset-0 bg-gradient-to-b from-black/50 dark:from-black/40 to-black/30 dark:to-black/20" />
+        <div className="z-10 absolute inset-0 bg-linear-to-b from-black/50 dark:from-black/40 to-black/30 dark:to-black/20" />
         <Image
           src="/bg.png"
           alt="Background Image"

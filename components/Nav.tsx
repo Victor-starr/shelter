@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FaPaw } from "react-icons/fa";
 
 const Nav = () => {
-  const { isAuthenticated, loading, logout } = useAuth();
+  const { isAuthenticated, isAdmin, loading, logout } = useAuth();
 
   return (
     <nav className="top-0 z-50 fixed flex justify-between items-center bg-card shadow-sm px-8 border-border border-b w-full h-16">
@@ -21,26 +21,32 @@ const Nav = () => {
         >
           About
         </Link>
-        {loading || isAuthenticated ? (
+        {!loading && isAuthenticated ? (
           <>
             <Link
-              href="/auth/dashboard"
+              href="/animals/catalog"
               className="font-medium text-description hover:text-primary transition-colors"
             >
-              Dashboard
+              Animals
             </Link>
-            <button
-              className="font-medium text-description hover:text-primary transition-colors"
-              onClick={logout}
-              disabled={loading}
-            >
+            {isAdmin && (
+              <Link
+                href="/auth/dashboard"
+                className="font-medium text-description hover:text-primary transition-colors"
+              >
+                Dashboard
+              </Link>
+            )}
+            <button className="btn-primary" onClick={logout} disabled={loading}>
               Logout
             </button>
           </>
         ) : (
-          <Link className="btn-primary" href="/auth/signin">
-            Sign In
-          </Link>
+          !loading && (
+            <Link className="btn-primary" href="/auth/signin">
+              Sign In
+            </Link>
+          )
         )}
       </div>
     </nav>

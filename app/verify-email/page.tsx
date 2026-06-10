@@ -33,7 +33,7 @@ export default function VerifyEmail() {
             </div>
 
             {/* Help Section */}
-            <div className="space-y-3 bg-muted p-5 rounded-lg">
+            <div className="space-y-3 bg-muted/25 p-5 rounded-lg">
               <h3 className="font-semibold text-title-2 text-sm">
                 Can&apos;t find the email?
               </h3>
