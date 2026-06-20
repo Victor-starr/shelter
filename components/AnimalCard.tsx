@@ -3,8 +3,8 @@ import Image from "next/image";
 
 const AnimalCard = (animal: Animal) => {
   return (
-    <div className="group flex flex-col hover:shadow-xl h-full\ overflow-hidden transition-all duration-300 card">
-      <div className="relative mb-4 rounded-lg w-full h-56 overflow-hidden">
+    <div className="group flex flex-col hover:shadow-xl h-full overflow-hidden transition-all duration-300 card">
+      <div className="relative mb-4 rounded-lg w-full h-64 overflow-hidden">
         <Image
           src={animal.image_url}
           alt={animal.name}
