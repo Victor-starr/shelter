@@ -1,5 +1,6 @@
 import { Animal } from "@/lib/types";
 import Image from "next/image";
+import Link from "next/link";
 
 const AnimalCard = (animal: Animal) => {
   return (
@@ -36,7 +37,12 @@ const AnimalCard = (animal: Animal) => {
         </p>{" "}
       </div>{" "}
       {/* Button */}{" "}
-      <button className="mt-6 w-full btn-primary"> Learn More </button>{" "}
+      <Link
+        href={`/animals/${animal.id}`}
+        className="mt-6 w-full text-center btn-primary"
+      >
+        Learn More
+      </Link>
     </div>
   );
 };
