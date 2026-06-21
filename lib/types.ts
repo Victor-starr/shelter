@@ -10,4 +10,13 @@ export type Animal = {
   created_at: string;
 };
 
+export type Booking = {
+  id: string;
+  animal_id: string;
+  guest_name: string;
+  guest_email: string;
+  visit_date: string;
+  created_at: string;
+};
+
 export type User = supabaseUser;
