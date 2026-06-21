@@ -24,7 +24,7 @@ export default function Dashboard() {
               </div>
               <h3 className="font-bold text-title text-xl">Saved Animals</h3>
               <p className="text-description text-sm">
-                View all the animals you{`&apos`}ve saved for later
+                View all the animals you&apos;ve saved for later
               </p>
 
               <button className="mt-2 font-semibold text-primary hover:text-primary/80 text-sm transition-colors">

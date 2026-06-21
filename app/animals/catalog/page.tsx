@@ -1,6 +1,6 @@
 "use client";
 
-import { GuardAuth } from "@/guards/GuardAuth";
+import GuardAuth from "@/guards/GuardAuth";
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import type { Animal } from "@/lib/types";

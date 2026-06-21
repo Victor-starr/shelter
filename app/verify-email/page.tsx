@@ -26,7 +26,7 @@ export default function VerifyEmail() {
                 Check Your Email
               </h2>
               <p className="text-description text-base leading-relaxed">
-                We{`&apos`}ve sent a verification link to{" "}
+                We&apos;ve sent a verification link to{" "}
                 <span className="font-semibold">{user?.email}</span>. Please
                 click the link to activate your account.
               </p>

@@ -82,8 +82,8 @@ export default function About() {
               Get Involved
             </h2>
             <p className="text-description text-lg">
-              Whether you{`&apos`}re looking to adopt, volunteer, or donate,
-              there are many ways to support our mission. Join us in making a
+              Whether you&apos;re looking to adopt, volunteer, or donate, there
+              are many ways to support our mission. Join us in making a
               difference in the lives of animals in need.
             </p>
           </section>

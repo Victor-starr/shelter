@@ -31,7 +31,7 @@ const Nav = () => {
             </Link>
             {isAdmin && (
               <Link
-                href="/auth/dashboard"
+                href="/admin/dashboard"
                 className="font-medium text-description hover:text-primary transition-colors"
               >
                 Dashboard
