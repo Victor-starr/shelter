@@ -1,58 +1,54 @@
 "use client";
 import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
-import { Animal, Booking } from "@/lib/types";
 import { useParams } from "next/navigation";
 import { useAuth } from "@/hook/useAuth";
-import AnimalDetails from "@/components/AnimalDetails";
+import AnimalDetails, {
+  AnimalDetailsSkeleton,
+} from "@/components/AnimalDetails";
 import Link from "next/link";
+import { useAnimal } from "@/hook/useAnimal";
 
 function AnimalPage() {
   const { animalId } = useParams();
   const { isAdmin, isAuthenticated } = useAuth();
-  const supabase = createClient();
+  const {
+    getSpecificAnimal,
+    animals: currentAnimal,
+    bookings,
+    loading,
+  } = useAnimal();
   const [toggleAnimalList, setToggleAnimalList] = useState(false);
-  const [animalBooking, setAnimalBooking] = useState<Booking[]>([]);
 
-  const [animal, setAnimal] = useState<Animal | null>(null);
   useEffect(() => {
-    const fetchAnimals = async () => {
-      const { data: animalData, error: animalError } = await supabase
-        .from("animals")
-        .select("*")
-        .eq("id", animalId)
-        .single();
-      if (animalError) {
-        console.error("Error fetching animal:", animalError);
-      } else {
-        console.log("Fetched animal:", animalData);
-        setAnimal(animalData);
-      }
-      const { data: bookingData, error: bookingError } = await supabase
-        .from("bookings")
-        .select("*")
-        .eq("animal_id", animalId)
-        .order("visit_date", { ascending: false });
-      if (bookingError) {
-        console.error("Error fetching animal bookings:", bookingError);
-      } else {
-        console.log("Fetched animal bookings:", bookingData);
-        setAnimalBooking(bookingData);
-      }
-    };
-    fetchAnimals();
-  }, [supabase]);
+    if (typeof animalId === "string") {
+      getSpecificAnimal(animalId);
+    }
+  }, [animalId]);
+
+  const animal = currentAnimal?.[0];
+
   return (
     <main className="flex flex-col justify-start items-center bg-background px-4 py-12 min-h-screen">
       <div className="mb-12 w-full max-w-4xl text-center">
-        <h1 className="mb-2 font-bold text-title text-4xl md:text-5xl">
-          Meet {animal?.name}
-        </h1>
-        <p className="text-description text-lg">
-          Get to know more about this lovely animal.
-        </p>
+        {loading ? (
+          <div className="flex flex-col items-center space-y-4">
+            <span className="inline-block bg-gray-300/50 mb-2 rounded-md w-64 h-10 animate-pulse"></span>
+            <span className="inline-block bg-gray-300/50 rounded-md w-96 h-6 animate-pulse"></span>
+          </div>
+        ) : (
+          <>
+            <h1 className="mb-2 font-bold text-title text-4xl md:text-5xl">
+              Meet {animal?.name || "our friend"}
+            </h1>
+            <p className="text-description text-lg">
+              Get to know more about this lovely animal.
+            </p>
+          </>
+        )}
       </div>
-      {animal ? (
+      {loading ? (
+        <AnimalDetailsSkeleton />
+      ) : animal ? (
         <>
           <AnimalDetails
             isAdmin={isAdmin}
@@ -66,9 +62,9 @@ function AnimalPage() {
               <h3 className="mb-4 font-bold text-title text-2xl text-center">
                 Scheduled Visits
               </h3>
-              {animalBooking.length > 0 ? (
+              {bookings && bookings.length > 0 ? (
                 <ul className="space-y-4">
-                  {animalBooking.map((visit) => (
+                  {bookings.map((visit) => (
                     <li
                       className="relative shadow-md p-4 rounded-lg card"
                       key={visit.id}

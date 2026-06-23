@@ -1,18 +1,16 @@
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
-import type { Animal } from "@/lib/types";
-import AnimalCard from "@/components/AnimalCard";
+"use client";
+
+import AnimalCard, { AnimalCardSkeleton } from "@/components/AnimalCard";
+import { useAnimal } from "@/hook/useAnimal";
 import Image from "next/image";
+import { useEffect } from "react";
 
-export default async function Home() {
-  const cookieStore = await cookies();
-  const supabase = createClient(cookieStore);
+export default function Home() {
+  const { animals, loading, getAnimals } = useAnimal();
 
-  const { data: animals, error } = (await supabase
-    .from("animals")
-    .select()
-    .limit(3)) as { data: Animal[] | null; error: Error | null };
-  if (error) throw error;
+  useEffect(() => {
+    getAnimals(3);
+  }, []);
 
   return (
     <main className="flex flex-col justify-start items-center bg-background min-h-screen">
@@ -45,9 +43,21 @@ export default async function Home() {
             </p>
           </div>
           <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {animals?.map((animal) => (
-              <AnimalCard key={animal.id} {...animal} />
-            ))}
+            {!loading ? (
+              animals === null ? (
+                <h2 className="text-description text-lg">
+                  No available animals right now
+                </h2>
+              ) : (
+                animals?.map((animal) => (
+                  <AnimalCard key={animal.id} {...animal} />
+                ))
+              )
+            ) : (
+              Array.from({ length: 3 }).map((_, index) => (
+                <AnimalCardSkeleton key={index} />
+              ))
+            )}
           </div>
         </div>
       </div>
