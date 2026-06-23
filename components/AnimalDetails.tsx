@@ -7,6 +7,7 @@ type animalDetailsProps = {
   isAdmin: boolean;
   toogleAnimalList: boolean;
   onToggleVisitList: () => void;
+  onToggleVisitForm: () => void;
 };
 const AnimalDetails = ({
   animal,
@@ -14,6 +15,7 @@ const AnimalDetails = ({
   isAdmin,
   onToggleVisitList,
   toogleAnimalList,
+  onToggleVisitForm,
 }: animalDetailsProps) => {
   return (
     <div className="items-start gap-10 grid grid-cols-1 md:grid-cols-2 mx-auto max-w-4xl">
@@ -41,8 +43,11 @@ const AnimalDetails = ({
         <p className="mb-6 text-description text-lg">{animal?.description}</p>
         <div className="flex flex-wrap items-center gap-4 mt-auto pt-4 border-description border-t">
           {isAuth && !isAdmin && (
-            <button className="bg-primary hover:bg-blue-600 shadow-md px-6 py-2 rounded-lg font-semibold text-white hover:scale-105 transition-transform transform">
-              Adopt Me
+            <button
+              onClick={onToggleVisitForm}
+              className="bg-primary hover:bg-blue-600 shadow-md px-6 py-2 rounded-lg font-semibold text-white hover:scale-105 transition-transform transform"
+            >
+              Visit Me
             </button>
           )}
           {isAdmin && (

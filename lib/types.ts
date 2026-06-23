@@ -15,7 +15,7 @@ export type Booking = {
   animal_id: string;
   guest_name: string;
   guest_email: string;
-  visit_date: string;
+  visit_datetime: string;
   created_at: string;
 };
 

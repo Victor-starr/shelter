@@ -7,6 +7,7 @@ import AnimalDetails, {
 } from "@/components/AnimalDetails";
 import Link from "next/link";
 import { useAnimal } from "@/hook/useAnimal";
+import AnimalVisitForm from "@/components/AnimalVisitForm";
 
 function AnimalPage() {
   const { animalId } = useParams();
@@ -17,7 +18,9 @@ function AnimalPage() {
     bookings,
     loading,
   } = useAnimal();
-  const [toggleAnimalList, setToggleAnimalList] = useState(false);
+  const [toggleAnimalList, setToggleAnimalList] = useState<boolean>(false);
+  const [toggleVisitForm, setToggleVisitForm] = useState<boolean>(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   useEffect(() => {
     if (typeof animalId === "string") {
@@ -27,8 +30,20 @@ function AnimalPage() {
 
   const animal = currentAnimal?.[0];
 
+  const handleSuccess = () => {
+    setShowSuccessMessage(true);
+    setTimeout(() => setShowSuccessMessage(false), 3000);
+  };
+
   return (
     <main className="flex flex-col justify-start items-center bg-background px-4 py-12 min-h-screen">
+      {isAuthenticated && !isAdmin && toggleVisitForm && animal && (
+        <AnimalVisitForm
+          animalId={animal.id}
+          onClose={() => setToggleVisitForm(false)}
+          onSuccess={handleSuccess}
+        />
+      )}
       <div className="mb-12 w-full max-w-4xl text-center">
         {loading ? (
           <div className="flex flex-col items-center space-y-4">
@@ -43,6 +58,11 @@ function AnimalPage() {
             <p className="text-description text-lg">
               Get to know more about this lovely animal.
             </p>
+            {showSuccessMessage && (
+              <p className="bg-green-100 mt-4 px-4 py-2 rounded-md text-green-600">
+                Visit scheduled successfully!
+              </p>
+            )}
           </>
         )}
       </div>
@@ -56,6 +76,7 @@ function AnimalPage() {
             animal={animal}
             toogleAnimalList={toggleAnimalList}
             onToggleVisitList={() => setToggleAnimalList((prev) => !prev)}
+            onToggleVisitForm={() => setToggleVisitForm(true)}
           />
           {toggleAnimalList && isAdmin && (
             <div className="mt-10 w-full max-w-4xl">
@@ -75,7 +96,7 @@ function AnimalPage() {
                       <p className="text-description">{visit.guest_email}</p>
                       <p className="mt-2 text-gray-500 text-sm">
                         Visit Date:{" "}
-                        {new Date(visit.visit_date).toLocaleDateString()}
+                        {new Date(visit.visit_datetime).toLocaleString()}
                       </p>
                       <button className="top-10 right-10 absolute bg-red-600 hover:bg-red-700 shadow-md px-6 py-3 rounded-lg font-semibold text-white hover:scale-105 transition-transform transform">
                         Cancel Visit

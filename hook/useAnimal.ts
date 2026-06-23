@@ -11,8 +11,19 @@ type useAnimalReturnType = {
   error: Error | null;
   bookings: Booking[] | null;
   setBookings: (bookings: Booking[] | null) => void;
-  getSpecificAnimal: (animalId: string) => Promise<void>;
+  getSpecificAnimal: (animalId: string, userId?: string) => Promise<void>;
+  createBooking: (
+    formData: FormData,
+    animalId: string,
+    userId: string,
+  ) => Promise<void>;
 };
+interface FormData {
+  name: string;
+  email: string;
+  date: string;
+  time: string;
+}
 
 export function useAnimal(): useAnimalReturnType {
   const supabase = createClient();
@@ -59,12 +70,48 @@ export function useAnimal(): useAnimalReturnType {
         .from("bookings")
         .select("*")
         .eq("animal_id", animalId)
-        .order("visit_date", { ascending: false });
+        .order("visit_datetime", {
+          ascending: false,
+        });
       if (bookingError) throw bookingError;
 
       setBookings((bookingData as Booking[]) ?? null);
     } catch (err) {
       console.error("Error fetching animal:", err);
+      setError(err as Error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createBooking = async (
+    formData: FormData,
+    animalId: string,
+    userId: string,
+  ) => {
+    try {
+      setError(null);
+      setLoading(true);
+      const visit_datetime = `${formData.date}T${formData.time}`;
+      const { data: bookingData, error: bookingError } = await supabase
+        .from("bookings")
+        .insert({
+          animal_id: animalId,
+          user_id: userId,
+          guest_name: formData.name,
+          guest_email: formData.email,
+          visit_datetime: visit_datetime,
+        })
+        .select()
+        .single();
+      if (bookingError) throw bookingError;
+
+      setBookings((prevBookings) => [
+        bookingData as Booking,
+        ...(prevBookings || []),
+      ]);
+    } catch (err) {
+      console.error("Error creating booking:", err);
       setError(err as Error);
     } finally {
       setLoading(false);
@@ -80,5 +127,6 @@ export function useAnimal(): useAnimalReturnType {
     bookings,
     setBookings,
     getSpecificAnimal,
+    createBooking,
   };
 }
