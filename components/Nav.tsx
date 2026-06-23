@@ -21,14 +21,14 @@ const Nav = () => {
         >
           About
         </Link>
+        <Link
+          href="/animals/catalog"
+          className="font-medium text-description hover:text-primary transition-colors"
+        >
+          Animals
+        </Link>
         {!loading && isAuthenticated ? (
           <>
-            <Link
-              href="/animals/catalog"
-              className="font-medium text-description hover:text-primary transition-colors"
-            >
-              Animals
-            </Link>
             {isAdmin && (
               <Link
                 href="/admin/dashboard"
