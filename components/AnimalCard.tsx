@@ -47,3 +47,32 @@ const AnimalCard = (animal: Animal) => {
   );
 };
 export default AnimalCard;
+
+export const AnimalCardSkeleton = () => {
+  return (
+    <div className="group flex flex-col hover:shadow-xl h-full overflow-hidden transition-all duration-300 card">
+      <div className="relative mb-4 rounded-lg w-full h-64 overflow-hidden">
+        <div className="h-full w-full animate-pulse bg-gray-200" />
+      </div>
+      <div className="flex-1 space-y-3">
+        <div className="h-8 w-3/4 animate-pulse rounded bg-gray-200" />
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <div className="h-4 w-12 animate-pulse rounded bg-gray-200" />
+            <div className="h-4 w-24 animate-pulse rounded bg-gray-200" />
+          </div>{" "}
+          <div className="flex items-center gap-2">
+            <div className="h-4 w-10 animate-pulse rounded bg-gray-200" />
+            <div className="h-4 w-16 animate-pulse rounded bg-gray-200" />
+          </div>{" "}
+        </div>
+        <div className="space-y-2">
+          <div className="h-4 w-full animate-pulse rounded bg-gray-200" />
+          <div className="h-4 w-5/6 animate-pulse rounded bg-gray-200" />
+          <div className="h-4 w-2/3 animate-pulse rounded bg-gray-200" />
+        </div>
+      </div>
+      <div className="mt-6 h-11 w-full animate-pulse rounded bg-gray-200" />
+    </div>
+  );
+};

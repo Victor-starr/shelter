@@ -65,3 +65,19 @@ const AnimalDetails = ({
 };
 
 export default AnimalDetails;
+
+export const AnimalDetailsSkeleton = () => {
+  return (
+    <div className="items-start gap-10 grid grid-cols-1 md:grid-cols-2 bg-gray-300/20 mx-auto px-6 py-4 w-4xl animate-pulse">
+      <div className="w-full">
+        <div className="bg-gray-300/50 rounded-lg w-full h-80"></div>
+      </div>
+      <div className="flex flex-col h-full">
+        <div className="bg-gray-300/50 my-6 rounded-lg w-full h-15"></div>
+        <div className="bg-gray-300/50 mt-4 rounded-lg w-full h-8"></div>
+        <div className="bg-gray-300/50 mt-3 rounded-lg w-full h-8"></div>
+        <div className="bg-gray-300/50 mt-5 rounded-lg w-full h-25"></div>
+      </div>
+    </div>
+  );
+};
