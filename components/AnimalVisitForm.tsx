@@ -3,6 +3,8 @@ import { useAnimal } from "@/hook/useAnimal";
 import { FormEvent, useState } from "react";
 
 type AnimalVisitFormProps = {
+  name?: string;
+  email?: string;
   userId?: string;
   animalId: string;
   onClose: () => void;
@@ -10,6 +12,8 @@ type AnimalVisitFormProps = {
 };
 
 const AnimalVisitForm = ({
+  name,
+  email,
   userId,
   animalId,
   onClose,
@@ -28,6 +32,9 @@ const AnimalVisitForm = ({
       date: string;
       time: string;
     };
+    data.name = name || "";
+    data.email = email || "";
+
     if (!userId) {
       console.error("User ID is missing. Please log in again.");
       setError("User ID is missing. Please log in again.");
@@ -49,30 +56,7 @@ const AnimalVisitForm = ({
         <h2 className="font-bold text-title text-2xl">Schedule a Visit</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {error && <p className="text-red-500">{error}</p>}
-          <div className="flex flex-col gap-2">
-            <label htmlFor="name" className="font-medium text-description">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              className="bg-input px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-description"
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="font-medium text-description">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              className="bg-input px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-description"
-            />
-          </div>
+
           <div className="flex flex-col gap-2">
             <label htmlFor="date" className="font-medium text-description">
               Date

@@ -12,6 +12,7 @@ type useAnimalReturnType = {
   bookings: Booking[] | null;
   setBookings: (bookings: Booking[] | null) => void;
   getSpecificAnimal: (animalId: string, userId?: string) => Promise<void>;
+  getAnimalBookings: (animalId: string) => Promise<void>;
   createBooking: (
     formData: FormData,
     animalId: string,
@@ -67,6 +68,19 @@ export function useAnimal(): useAnimalReturnType {
 
       setAnimals(animalData ? [animalData as Animal] : null);
 
+      getAnimalBookings(animalId);
+    } catch (err) {
+      console.error("Error fetching animal:", err);
+      setError(err as Error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getAnimalBookings = async (animalId: string) => {
+    try {
+      setError(null);
+      setLoading(true);
       const { data: bookingData, error: bookingError } = await supabase
         .from("bookings")
         .select("*")
@@ -149,6 +163,7 @@ export function useAnimal(): useAnimalReturnType {
     bookings,
     setBookings,
     getSpecificAnimal,
+    getAnimalBookings,
     createBooking,
     cancelBooking,
   };

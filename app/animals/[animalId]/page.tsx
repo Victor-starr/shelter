@@ -16,6 +16,7 @@ function AnimalPage() {
   const userId = user?.id;
   const {
     getSpecificAnimal,
+    getAnimalBookings,
     cancelBooking,
     animals: currentAnimal,
     bookings,
@@ -34,6 +35,8 @@ function AnimalPage() {
   const animal = currentAnimal?.[0];
   const handleSuccess = () => {
     setShowSuccessMessage(true);
+    setToggleAnimalList(true);
+    getAnimalBookings(animalId as string);
     setTimeout(() => setShowSuccessMessage(false), 3000);
   };
 
@@ -41,6 +44,8 @@ function AnimalPage() {
     <main className="flex flex-col justify-start items-center bg-background px-4 py-12 min-h-screen">
       {isAuthenticated && !isAdmin && toggleVisitForm && animal && (
         <AnimalVisitForm
+          name={user?.user_metadata?.full_name}
+          email={user?.email}
           userId={userId}
           animalId={animal.id}
           onClose={() => setToggleVisitForm(false)}
@@ -62,7 +67,7 @@ function AnimalPage() {
               Get to know more about this lovely animal.
             </p>
             {showSuccessMessage && (
-              <p className="bg-green-100 mt-4 px-4 py-2 rounded-md text-green-600">
+              <p className="bg-success/50 mt-4 px-4 py-2 rounded-md text-title">
                 Visit scheduled successfully!
               </p>
             )}
