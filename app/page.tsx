@@ -17,7 +17,7 @@ export default function Home() {
       <header className="relative flex flex-col justify-center items-center w-full h-96 overflow-hidden">
         <div className="z-10 absolute inset-0 bg-linear-to-b from-black/50 dark:from-black/40 to-black/30 dark:to-black/20" />
         <Image
-          src="/bg.png"
+          src="/bg2.webp"
           alt="Background Image"
           fill
           priority
