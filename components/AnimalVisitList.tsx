@@ -5,6 +5,7 @@ type AnimalVisitListProps = {
   isAdmin: boolean;
   userId: string;
   cancelBooking: (bookingId: string) => Promise<void>;
+  addCalendar: () => void;
 };
 
 const AnimalVisitList = ({
@@ -12,6 +13,7 @@ const AnimalVisitList = ({
   isAdmin,
   userId,
   cancelBooking,
+  addCalendar,
 }: AnimalVisitListProps) => {
   return (
     <div className="mt-10 w-full max-w-4xl">
@@ -28,6 +30,7 @@ const AnimalVisitList = ({
                     visit={visit}
                     cancelBooking={cancelBooking}
                     key={visit.id}
+                    addCalendar={addCalendar}
                   />
                 ))
             : bookings.map((visit) => (
@@ -35,6 +38,7 @@ const AnimalVisitList = ({
                   visit={visit}
                   cancelBooking={cancelBooking}
                   key={visit.id}
+                  addCalendar={addCalendar}
                 />
               ))}
         </ul>
@@ -50,9 +54,11 @@ const AnimalVisitList = ({
 const AnimalOneList = ({
   visit,
   cancelBooking,
+  addCalendar,
 }: {
   visit: Booking;
   cancelBooking: (bookingId: string) => Promise<void>;
+  addCalendar: () => void;
 }) => {
   return (
     <li className="relative shadow-md p-4 rounded-lg card" key={visit.id}>
@@ -61,13 +67,19 @@ const AnimalOneList = ({
       <p className="mt-2 text-gray-500 text-sm">
         Visit Date: {new Date(visit.visit_datetime).toLocaleString()}
       </p>
-      <button
-        onClick={() => cancelBooking(visit.id)}
-        className="top-10 right-10 absolute bg-red-600 hover:bg-red-700 shadow-md px-6 py-3 rounded-lg font-semibold text-white hover:scale-105 transition-transform transform"
-      >
-        Cancel Visit
-      </button>
+      <div className="top-1/4 right-10 absolute flex flex-row gap-8">
+        <button
+          onClick={() => cancelBooking(visit.id)}
+          className="bg-red-600 hover:bg-red-700 shadow-md px-6 py-3 rounded-lg font-semibold text-white hover:scale-105 transition-transform transform"
+        >
+          Cancel Visit
+        </button>
+        <button className="px-6 py-3 btn-secondary" onClick={addCalendar}>
+          Add to Calendar
+        </button>
+      </div>
     </li>
   );
 };
+
 export default AnimalVisitList;

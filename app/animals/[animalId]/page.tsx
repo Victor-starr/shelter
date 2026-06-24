@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useAnimal } from "@/hook/useAnimal";
 import AnimalVisitForm from "@/components/AnimalVisitForm";
 import AnimalVisitList from "@/components/AnimalVisitList";
+import { createGoogleCalendarUrl } from "@/utils/createGoogleCalendarUrl";
 
 function AnimalPage() {
   const { animalId } = useParams();
@@ -38,6 +39,11 @@ function AnimalPage() {
     setToggleAnimalList(true);
     getAnimalBookings(animalId as string);
     setTimeout(() => setShowSuccessMessage(false), 3000);
+  };
+  const handleAddToGoogle = () => {
+    if (!animal || !bookings || bookings.length === 0) return;
+    const url = createGoogleCalendarUrl(animal, bookings?.[0]);
+    window.open(url, "_blank");
   };
 
   return (
@@ -92,6 +98,7 @@ function AnimalPage() {
               isAdmin={isAdmin}
               userId={userId || ""}
               cancelBooking={cancelBooking}
+              addCalendar={handleAddToGoogle}
             />
           )}
         </>
