@@ -58,11 +58,11 @@ const AnimalDetails = ({
               <button className="bg-red-600 hover:bg-red-700 shadow-md px-6 py-3 rounded-lg font-semibold text-white hover:scale-105 transition-transform transform">
                 Delete
               </button>
-              <button onClick={onToggleVisitList} className="btn-secondary">
-                {toogleAnimalList ? "Hide Visits" : "View Visits"}
-              </button>
             </>
           )}
+          <button onClick={onToggleVisitList} className="btn-secondary">
+            {toogleAnimalList ? "Hide Visits" : "View Visits"}
+          </button>
         </div>
       </div>
     </div>

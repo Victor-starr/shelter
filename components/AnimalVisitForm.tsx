@@ -1,21 +1,20 @@
 "use client";
 import { useAnimal } from "@/hook/useAnimal";
-import { useAuth } from "@/hook/useAuth";
 import { FormEvent, useState } from "react";
 
 type AnimalVisitFormProps = {
+  userId?: string;
   animalId: string;
   onClose: () => void;
   onSuccess: () => void;
 };
 
 const AnimalVisitForm = ({
+  userId,
   animalId,
   onClose,
   onSuccess,
 }: AnimalVisitFormProps) => {
-  const { user } = useAuth();
-  const userId = user?.id || "";
   const { createBooking, loading } = useAnimal();
   const [error, setError] = useState<string | null>(null);
 
@@ -29,7 +28,11 @@ const AnimalVisitForm = ({
       date: string;
       time: string;
     };
-
+    if (!userId) {
+      console.error("User ID is missing. Please log in again.");
+      setError("User ID is missing. Please log in again.");
+      return;
+    }
     try {
       await createBooking(data, animalId, userId);
       onSuccess();

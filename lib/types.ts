@@ -12,6 +12,7 @@ export type Animal = {
 
 export type Booking = {
   id: string;
+  user_id: string;
   animal_id: string;
   guest_name: string;
   guest_email: string;

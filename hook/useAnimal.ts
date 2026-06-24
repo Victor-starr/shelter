@@ -17,6 +17,7 @@ type useAnimalReturnType = {
     animalId: string,
     userId: string,
   ) => Promise<void>;
+  cancelBooking: (bookingId: string) => Promise<void>;
 };
 interface FormData {
   name: string;
@@ -96,11 +97,12 @@ export function useAnimal(): useAnimalReturnType {
       const { data: bookingData, error: bookingError } = await supabase
         .from("bookings")
         .insert({
-          animal_id: animalId,
           user_id: userId,
+          animal_id: animalId,
           guest_name: formData.name,
           guest_email: formData.email,
           visit_datetime: visit_datetime,
+          created_at: new Date().toISOString(),
         })
         .select()
         .single();
@@ -118,6 +120,26 @@ export function useAnimal(): useAnimalReturnType {
     }
   };
 
+  const cancelBooking = async (bookingId: string) => {
+    try {
+      setError(null);
+      setLoading(true);
+      const { error: deleteError } = await supabase
+        .from("bookings")
+        .delete()
+        .eq("id", bookingId);
+      if (deleteError) throw deleteError;
+      setBookings((prevBookings) =>
+        prevBookings ? prevBookings.filter((b) => b.id !== bookingId) : null,
+      );
+    } catch (err) {
+      console.error("Error canceling booking:", err);
+      setError(err as Error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     animals,
     setAnimals,
@@ -128,5 +150,6 @@ export function useAnimal(): useAnimalReturnType {
     setBookings,
     getSpecificAnimal,
     createBooking,
+    cancelBooking,
   };
 }
