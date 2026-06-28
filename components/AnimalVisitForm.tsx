@@ -66,7 +66,7 @@ const AnimalVisitForm = ({
               id="date"
               name="date"
               required
-              className="bg-input px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-description"
+              className="px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-description"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -78,7 +78,7 @@ const AnimalVisitForm = ({
               id="time"
               name="time"
               required
-              className="bg-input px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-description"
+              className="px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-description"
             />
           </div>
           <div className="flex flex-row gap-4 pt-2">
