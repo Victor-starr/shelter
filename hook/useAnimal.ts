@@ -11,6 +11,7 @@ type useAnimalReturnType = {
   error: Error | null;
   bookings: Booking[] | null;
   setBookings: (bookings: Booking[] | null) => void;
+  createAnimal: (animal: AnimalCreateForm) => Promise<Animal | undefined>;
   getSpecificAnimal: (animalId: string, userId?: string) => Promise<void>;
   getAnimalBookings: (animalId: string) => Promise<void>;
   createBooking: (
@@ -25,6 +26,13 @@ interface FormData {
   email: string;
   date: string;
   time: string;
+}
+interface AnimalCreateForm {
+  name: string;
+  type: string;
+  age: number;
+  description: string;
+  base64Image: File;
 }
 
 export function useAnimal(): useAnimalReturnType {
@@ -99,6 +107,55 @@ export function useAnimal(): useAnimalReturnType {
     }
   };
 
+  const createAnimal = async (animal: AnimalCreateForm) => {
+    try {
+      setError(null);
+      setLoading(true);
+
+      if (!animal.base64Image) {
+        throw new Error("Image is required");
+      }
+
+      const fileName = `public/${Date.now()}-${animal.name}.png`;
+
+      const { data: imageData, error: imageError } = await supabase.storage
+        .from("animals_images")
+        .upload(fileName, animal.base64Image, {
+          contentType: "image/png",
+        });
+
+      if (imageError) throw imageError;
+      console.log("Image uploaded successfully:", imageData);
+
+      const { data: publicURLData } = supabase.storage
+        .from("animals_images")
+        .getPublicUrl(fileName);
+
+      const { data: animalData, error: animalError } = await supabase
+        .from("animals")
+        .insert({
+          name: animal.name,
+          type: animal.type,
+          age: Number(animal.age),
+          description: animal.description,
+          image_url: publicURLData.publicUrl,
+          created_at: new Date().toISOString(),
+        })
+        .select()
+        .single();
+
+      if (animalError) throw animalError;
+      console.log("Animal created successfully:", animalData);
+
+      return animalData;
+    } catch (err) {
+      console.error("Error creating animal:", err);
+      setError(err as Error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const createBooking = async (
     formData: FormData,
     animalId: string,
@@ -162,6 +219,7 @@ export function useAnimal(): useAnimalReturnType {
     error,
     bookings,
     setBookings,
+    createAnimal,
     getSpecificAnimal,
     getAnimalBookings,
     createBooking,
