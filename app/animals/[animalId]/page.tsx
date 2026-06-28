@@ -106,10 +106,7 @@ function AnimalPage() {
         <div className="text-center">
           <p>
             We Couldn&apos;t found the animal you are looking for! Please{" "}
-            <Link
-              href="/animals/catalog"
-              className="text-primary hover:underline"
-            >
+            <Link href="/animals" className="text-primary hover:underline">
               browse our animals
             </Link>{" "}
             to find the one you&apos;re looking for.

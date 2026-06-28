@@ -38,7 +38,7 @@ const CreateAnimalPage = () => {
 
       const data = await createAnimal(animalData);
       if (data) {
-        router.push(`/animals/catalog`);
+        router.push(`/animals`);
       }
     } catch (error) {
       console.error("Error creating animal:", error);

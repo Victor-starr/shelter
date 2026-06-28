@@ -22,7 +22,7 @@ const Nav = () => {
           About
         </Link>
         <Link
-          href="/animals/catalog"
+          href="/animals"
           className="font-medium text-description hover:text-primary transition-colors"
         >
           Animals

@@ -19,7 +19,7 @@ const GuardAdmin = ({ children }: { children: React.ReactNode }) => {
       return;
     }
     if (!isAdmin) {
-      router.replace("/animals/catalog");
+      router.replace("/animals");
       return;
     }
   }, [isAuthenticated, loading, router, user]);
