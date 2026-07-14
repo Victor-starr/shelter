@@ -21,7 +21,7 @@ export default function Dashboard() {
           {/* Dashboard Grid */}
           <div className="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {/* Card 1: Saved Animals */}
-            <div className="space-y-4 hover:shadow-xl transition-shadow cursor-pointer card">
+            <div className="space-y-4 hover:shadow-xl px-3 py-3 transition-shadow cursor-pointer card">
               <div className="flex justify-center items-center bg-primary/20 rounded-lg w-12 h-12 text-primary">
                 <IoCreateOutline size={24} />
               </div>

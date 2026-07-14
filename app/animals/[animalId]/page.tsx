@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "@/hook/useAuth";
 import AnimalDetails, {
   AnimalDetailsSkeleton,
@@ -10,14 +10,17 @@ import { useAnimal } from "@/hook/useAnimal";
 import AnimalVisitForm from "@/components/AnimalVisitForm";
 import AnimalVisitList from "@/components/AnimalVisitList";
 import { createGoogleCalendarUrl } from "@/utils/createGoogleCalendarUrl";
+import ConfirmAction from "@/components/ConfirmAction";
 
 function AnimalPage() {
   const { animalId } = useParams();
   const { user, isAdmin, isAuthenticated } = useAuth();
   const userId = user?.id;
+  const router = useRouter();
   const {
     getSpecificAnimal,
     getAnimalBookings,
+    deleteAnimal,
     cancelBooking,
     animals: currentAnimal,
     bookings,
@@ -26,6 +29,7 @@ function AnimalPage() {
   const [toggleAnimalList, setToggleAnimalList] = useState<boolean>(false);
   const [toggleVisitForm, setToggleVisitForm] = useState<boolean>(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [toggleConfirmDelete, setToggleConfirmDelete] = useState(false);
 
   useEffect(() => {
     if (typeof animalId === "string") {
@@ -46,8 +50,22 @@ function AnimalPage() {
     window.open(url, "_blank");
   };
 
+  const handleDeleteAnimal = () => {
+    if (animal) {
+      deleteAnimal(animal.id);
+      setToggleConfirmDelete(false);
+      router.push("/animals");
+    }
+  };
   return (
     <main className="flex flex-col justify-start items-center bg-background px-4 py-12 min-h-screen">
+      {toggleConfirmDelete && (
+        <ConfirmAction
+          message="Are you sure you want to delete this animal?"
+          onConfirm={() => handleDeleteAnimal()}
+          onCancel={() => setToggleConfirmDelete(false)}
+        />
+      )}
       {isAuthenticated && !isAdmin && toggleVisitForm && animal && (
         <AnimalVisitForm
           name={user?.user_metadata?.full_name}
@@ -89,6 +107,7 @@ function AnimalPage() {
             isAuth={isAuthenticated}
             animal={animal}
             toogleAnimalList={toggleAnimalList}
+            onDelete={() => setToggleConfirmDelete(true)}
             onToggleVisitList={() => setToggleAnimalList((prev) => !prev)}
             onToggleVisitForm={() => setToggleVisitForm(true)}
           />
@@ -98,6 +117,7 @@ function AnimalPage() {
               isAdmin={isAdmin}
               userId={userId || ""}
               cancelBooking={cancelBooking}
+              onVisitCanceled={() => getAnimalBookings(animalId as string)}
               addCalendar={handleAddToGoogle}
             />
           )}

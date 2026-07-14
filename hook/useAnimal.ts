@@ -12,6 +12,7 @@ type useAnimalReturnType = {
   bookings: Booking[] | null;
   setBookings: (bookings: Booking[] | null) => void;
   createAnimal: (animal: AnimalCreateForm) => Promise<Animal | undefined>;
+  deleteAnimal: (animalId: string) => Promise<void>;
   getSpecificAnimal: (animalId: string, userId?: string) => Promise<void>;
   getAnimalBookings: (animalId: string) => Promise<void>;
   createBooking: (
@@ -156,6 +157,38 @@ export function useAnimal(): useAnimalReturnType {
     }
   };
 
+  const deleteAnimal = async (animalId: string) => {
+    try {
+      setError(null);
+      setLoading(true);
+      const { error: deleteError } = await supabase
+        .from("animals")
+        .delete()
+        .eq("id", animalId);
+      if (deleteError) throw deleteError;
+
+      const { error: deleteBookingsError } = await supabase
+        .from("bookings")
+        .delete()
+        .eq("animal_id", animalId);
+      if (deleteBookingsError) throw deleteBookingsError;
+
+      const { error: deleteImageError } = await supabase.storage
+        .from("animals_images")
+        .remove([`public/${animalId}.png`]);
+      if (deleteImageError) throw deleteImageError;
+
+      setAnimals((prevAnimals) =>
+        prevAnimals ? prevAnimals.filter((a) => a.id !== animalId) : null,
+      );
+    } catch (err) {
+      console.error("Error deleting animal:", err);
+      setError(err as Error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const createBooking = async (
     formData: FormData,
     animalId: string,
@@ -224,5 +257,6 @@ export function useAnimal(): useAnimalReturnType {
     getAnimalBookings,
     createBooking,
     cancelBooking,
+    deleteAnimal,
   };
 }

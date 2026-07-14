@@ -8,14 +8,16 @@ type animalDetailsProps = {
   toogleAnimalList: boolean;
   onToggleVisitList: () => void;
   onToggleVisitForm: () => void;
+  onDelete: () => void;
 };
 const AnimalDetails = ({
   animal,
   isAuth,
   isAdmin,
-  onToggleVisitList,
   toogleAnimalList,
+  onToggleVisitList,
   onToggleVisitForm,
+  onDelete,
 }: animalDetailsProps) => {
   return (
     <div className="items-start gap-10 grid grid-cols-1 md:grid-cols-2 mx-auto max-w-4xl">
@@ -55,7 +57,10 @@ const AnimalDetails = ({
               <Link href={`/animals/${animal.id}/edit`} className="btn-primary">
                 Edit
               </Link>
-              <button className="bg-red-600 hover:bg-red-700 shadow-md px-6 py-3 rounded-lg font-semibold text-white hover:scale-105 transition-transform transform">
+              <button
+                onClick={onDelete}
+                className="bg-red-600 hover:bg-red-700 shadow-md px-6 py-3 rounded-lg font-semibold text-white hover:scale-105 transition-transform transform"
+              >
                 Delete
               </button>
             </>
