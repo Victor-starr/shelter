@@ -1,9 +1,12 @@
 import { User as supabaseUser } from "@supabase/supabase-js";
 
+export const ANIMAL_TYPES = ["Dog", "Cat", "Bird", "Rabbit", "Other"] as const;
+export type AnimalType = (typeof ANIMAL_TYPES)[number];
+
 export type Animal = {
   id: string;
   name: string;
-  type: string;
+  type: AnimalType;
   age: number;
   description: string;
   image_url: string;

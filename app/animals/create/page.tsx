@@ -1,6 +1,7 @@
 "use client";
 import GuardAdmin from "@/guards/GuardAdmin";
 import { useAnimal } from "@/hook/useAnimal";
+import { ANIMAL_TYPES, AnimalType } from "@/lib/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -8,6 +9,9 @@ import { useState } from "react";
 const CreateAnimalPage = () => {
   const { createAnimal, loading, error } = useAnimal();
   const [preview, setPreview] = useState<string | null>(null);
+  const [selectedAnimalType, setSelectedAnimalType] =
+    useState<AnimalType | null>(null);
+  const [animalAge, setAnimalAge] = useState<number>(0);
   const router = useRouter();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,6 +25,10 @@ const CreateAnimalPage = () => {
     e.preventDefault();
 
     try {
+      if (!selectedAnimalType) {
+        throw new Error("Animal type is required");
+      }
+
       const formData = new FormData(e.currentTarget);
       const imageFile = formData.get("image") as File | null;
 
@@ -30,8 +38,8 @@ const CreateAnimalPage = () => {
 
       const animalData = {
         name: formData.get("name") as string,
-        type: formData.get("type") as string,
-        age: Number(formData.get("age")),
+        type: selectedAnimalType,
+        age: Number(animalAge),
         description: formData.get("description") as string,
         base64Image: imageFile,
       };
@@ -75,25 +83,48 @@ const CreateAnimalPage = () => {
               <label htmlFor="type" className="font-medium text-description">
                 Type
               </label>
-              <input
-                type="text"
-                id="type"
-                name="type"
-                required
-                className="px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-description"
-              />
+
+              <div className="flex flex-row flex-wrap gap-3">
+                {ANIMAL_TYPES.map((type) => (
+                  <p
+                    key={type}
+                    onClick={() => setSelectedAnimalType(type)}
+                    className={`cursor-pointer rounded-md px-4 py-2 select-none border ${
+                      selectedAnimalType === type
+                        ? "card border-primary"
+                        : "btn-primary p-4 border-gray-300"
+                    }`}
+                  >
+                    {type}
+                  </p>
+                ))}
+              </div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <label htmlFor="age" className="font-medium text-description">
-                Age
+              <label
+                htmlFor="age"
+                className="flex justify-between items-center font-medium text-description"
+              >
+                <span>Age</span>
+                <span
+                  id="age-value"
+                  className="bg-primary/10 px-3 py-1 rounded-full min-w-10 font-semibold text-primary text-sm text-center"
+                >
+                  {animalAge}
+                </span>
               </label>
+
               <input
-                type="number"
+                type="range"
                 id="age"
                 name="age"
+                min="0"
+                max="40"
                 required
-                className="px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-description"
+                value={animalAge}
+                onChange={(e) => setAnimalAge(Number(e.target.value))}
+                className="bg-border rounded-full focus:outline-none focus:ring-2 focus:ring-primary/40 w-full h-2 accent-primary appearance-none cursor-pointer"
               />
             </div>
 
