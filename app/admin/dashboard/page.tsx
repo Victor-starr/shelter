@@ -1,6 +1,7 @@
 import GuardAdmin from "@/guards/GuardAdmin";
 import { IoCreateOutline } from "react-icons/io5";
 import Link from "next/link";
+import VisitsByDateSection from "@/components/VisitsByDateSection";
 
 export default function Dashboard() {
   return (
@@ -39,17 +40,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Recent Activity */}
-          <div className="mt-12">
-            <h2 className="mb-6 font-bold text-title text-2xl">
-              Recent Activity
-            </h2>
-            <div className="space-y-4 card">
-              <p className="py-8 text-description text-center">
-                No recent activity yet. Start exploring animals to get started!
-              </p>
-            </div>
-          </div>
+          <VisitsByDateSection />
         </div>
       </main>
     </GuardAdmin>

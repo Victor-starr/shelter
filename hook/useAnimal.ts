@@ -11,6 +11,7 @@ type useAnimalReturnType = {
   error: Error | null;
   bookings: Booking[] | null;
   setBookings: (bookings: Booking[] | null) => void;
+  scheduleAnimalVisit: (date: string) => Promise<void>;
   createAnimal: (animal: AnimalCreateForm) => Promise<Animal | undefined>;
   deleteAnimal: (animalId: string) => Promise<void>;
   getSpecificAnimal: (animalId: string, userId?: string) => Promise<void>;
@@ -22,12 +23,14 @@ type useAnimalReturnType = {
   ) => Promise<void>;
   cancelBooking: (bookingId: string) => Promise<void>;
 };
+
 interface FormData {
   name: string;
   email: string;
   date: string;
   time: string;
 }
+
 interface AnimalCreateForm {
   name: string;
   type: string;
@@ -64,6 +67,7 @@ export function useAnimal(): useAnimalReturnType {
       setLoading(false);
     }
   };
+
   const getSpecificAnimal = async (animalId: string) => {
     try {
       setError(null);
@@ -77,7 +81,7 @@ export function useAnimal(): useAnimalReturnType {
 
       setAnimals(animalData ? [animalData as Animal] : null);
 
-      getAnimalBookings(animalId);
+      await getAnimalBookings(animalId);
     } catch (err) {
       console.error("Error fetching animal:", err);
       setError(err as Error);
@@ -102,6 +106,33 @@ export function useAnimal(): useAnimalReturnType {
       setBookings((bookingData as Booking[]) ?? null);
     } catch (err) {
       console.error("Error fetching animal:", err);
+      setError(err as Error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const scheduleAnimalVisit = async (date: string) => {
+    try {
+      setError(null);
+      setLoading(true);
+
+      const startOfDay = new Date(`${date}T00:00:00`);
+      const startOfNextDay = new Date(startOfDay);
+      startOfNextDay.setDate(startOfNextDay.getDate() + 1);
+
+      const { data: bookingData, error: bookingError } = await supabase
+        .from("bookings")
+        .select("*")
+        .gte("visit_datetime", startOfDay.toISOString())
+        .lt("visit_datetime", startOfNextDay.toISOString())
+        .order("visit_datetime", { ascending: true });
+
+      if (bookingError) throw bookingError;
+
+      setBookings((bookingData as Booking[]) ?? null);
+    } catch (err) {
+      console.error("Error fetching bookings by date:", err);
       setError(err as Error);
     } finally {
       setLoading(false);
@@ -252,6 +283,7 @@ export function useAnimal(): useAnimalReturnType {
     error,
     bookings,
     setBookings,
+    scheduleAnimalVisit,
     createAnimal,
     getSpecificAnimal,
     getAnimalBookings,

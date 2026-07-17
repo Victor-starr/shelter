@@ -54,9 +54,9 @@ const AnimalDetails = ({
           )}
           {isAdmin && (
             <>
-              <Link href={`/animals/${animal.id}/edit`} className="btn-primary">
+              {/* <Link href={`/animals/${animal.id}/edit`} className="btn-primary">
                 Edit
-              </Link>
+              </Link> */}
               <button
                 onClick={onDelete}
                 className="bg-red-600 hover:bg-red-700 shadow-md px-6 py-3 rounded-lg font-semibold text-white hover:scale-105 transition-transform transform"
